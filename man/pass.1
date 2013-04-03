@@ -68,6 +68,12 @@ by using the
 .BR tree (1)
 program. This command is alternatively named \fBlist\fP.
 .TP
+\fBfind\fP \fIsearch-term\fP...
+List names of passwords inside the tree that match \fIsearch-term\fP(s) by using
+the
+.BR tree (1)
+program.
+.TP
 \fBshow\fP [ \fI--clip\fP, \fI-c\fP ] \fIpass-name\fP
 Decrypt and print a password named \fIpass-name\fP. If \fI--clip\fP or \fI-c\fP
 is specified, do not print the password but instead copy the first line to the
@@ -160,6 +166,21 @@ Password Store
 
 .br
 Alternatively, "\fBpass ls\fP".
+.TP
+Find existing passwords in store that match .com
+.B zx2c4@laptop ~ $ pass find .com
+.br
+Terms: .com
+.br
+\[u251C]\[u2500]\[u2500] Business 
+.br
+\[u2502]   \[u251C]\[u2500]\[u2500] some-silly-business-site.com 
+.br
+\[u2514]\[u2500]\[u2500] Email 
+.br
+    \[u251C]\[u2500]\[u2500] donenfeld.com 
+.br
+    \[u2514]\[u2500]\[u2500] zx2c4.com 
 .TP
 Show existing password
 .B zx2c4@laptop ~ $ pass Email/zx2c4.com 

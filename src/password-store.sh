@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2012 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
+# Copyright (C) 2012-2013 Jason A. Donenfeld <Jason@zx2c4.com>. All Rights Reserved.
 # This file is licensed under the GPLv2+. Please see COPYING for more information.
 
 umask 077
@@ -38,6 +38,8 @@ Usage:
     $program [show] [--clip,-c] pass-name
         Show existing password and optionally put it on the clipboard.
         If put on the clipboard, it will be cleared in 45 seconds.
+    $program find search-term...
+        List passwords and directories that match search-term(s).
     $program insert [--echo,-e | --multiline,-m] [--force,-f] pass-name
         Insert new password. Optionally, the console can be enabled echo
         the password back. Or, optionally, it may be multiline. Prompt
@@ -63,7 +65,7 @@ _EOF
 }
 is_command() {
 	case "$1" in
-		init|ls|list|show|insert|edit|generate|remove|rm|delete|git|help|--help|version|--version) return 0 ;;
+		init|ls|list|find|show|insert|edit|generate|remove|rm|delete|git|help|--help|version|--version) return 0 ;;
 		*) return 1 ;;
 	esac
 }
@@ -228,6 +230,15 @@ case "$command" in
 				clip "$pass" "$path"
 			fi
 		fi
+		;;
+	find)
+		if [[ -z "$@" ]]; then
+			echo "Usage: $program $command search-term..."
+			exit 1
+		fi
+		pattern="$@"
+		echo "Terms: $pattern"
+		tree -l --noreport -P "*${pattern// /*|*}*" --prune "$PREFIX/$path" | tail -n +2 | sed 's/\.gpg$//'
 		;;
 	insert)
 		multiline=0
